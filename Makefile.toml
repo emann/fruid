@@ -1,0 +1,71 @@
+# Built-in commands
+# From: https://github.com/sagiegurari/cargo-make/blob/master/docs/cargo_make_task_list.md
+#
+# - The usual cargo commands: build, clean, format (fmt), bench, check, clippy, test
+# - audit: run cargo-audit plugin
+# - build-release `cargo build --release`
+# - coverage: run test coverage (using kcov)
+# - codecov: upload coverage results to codecov
+# - default: `cargo fmt && cargo test`
+# - docs: build API documentation
+# - install-rustfmt: Install rustfmt for the default toolchain, if missing
+# - outdated: find outdated dependencies
+# - workspace-docs: generate workspace-level docs
+#
+# Built-in CI commands
+#
+# - ci-flow: build and test
+# - ci-coverage-flow: coverage flow and upload to codecov
+# - clippy-ci-flow: run clippy if conditions are met
+
+[config]
+# Like using --no-workspace cli flag, makes cargo-make operate at workspace root
+# and not on each member individually.
+# Override per-member with `workspace = true`
+default_to_workspace = false
+
+
+[tasks.check-fmt]
+dependencies = ["install-rustfmt"]
+command = "cargo"
+args = ["fmt", "--", "--check"]
+
+# Disabled until we figure out how best to download the deny.toml we use
+#[tasks.deny-check]
+#command = "cargo"
+#args = ["deny", "check"]
+
+[tasks.doc]
+command = "cargo"
+args = ["doc", "--workspace", "--document-private-items", "--no-deps", "--open"]
+
+[tasks.grcov]
+env = { "RUSTFLAGS" = "-Zinstrument-coverage", "LLVM_PROFILE_FILE" = "default-%p-%m.profraw" }
+script = """
+rustup +nightly component add llvm-tools-preview
+cargo +nightly test --all-features -- --test-threads 1
+grcov . -s . --binary-path ./target/debug/ -t html --branch --ignore-not-existing -o ./target/debug/coverage/
+rm *.profraw
+open target/debug/coverage/index.html
+"""
+
+[tasks.install-grcov]
+command = "cargo"
+args = ["install", "grcov"]
+
+[tasks.lint]
+dependencies = ["clippy"]
+
+[tasks.outdated]
+command = "cargo"
+args = ["outdated"]
+
+[tasks.test]
+command = "cargo"
+args = ["test-all-features"]
+install_crate = "cargo-all-features"
+
+[tasks.update-bin]
+command = "cargo"
+args = ["install-update", "-a"]
+install_crate = "cargo-update"
