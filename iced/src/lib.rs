@@ -1,13 +1,32 @@
-pub trait FromCLIInput
-    where
-        Self: Sized,
+#![warn(clippy::all)]
+#![warn(clippy::correctness)]
+#![warn(clippy::style)]
+#![warn(clippy::complexity)]
+#![warn(clippy::perf)]
+
+pub mod widgets;
+
+use iced::{text_input, Element};
+use std::fmt::Debug;
+
+pub trait FromGUIInput
+where
+    Self: Sized,
 {
-    fn from_cli_input(prompt: &str, default: Option<Self>) -> Self;
+    fn user_input_widget<'a, State>(
+        state: &mut State,
+        prompt: &str,
+        default: Option<Self>,
+    ) -> Element<'a, Message>;
 }
 
-impl FromCLIInput for String {
-    fn from_cli_input(prompt: &str, default: Option<Self>) -> Self {
-        prompt::get_string(prompt, default)
+impl FromGUIInput for String {
+    fn user_input_widget<'a>(
+        state: &mut text_input::State,
+        prompt: &str,
+        default: Option<Self>,
+    ) -> Element<'a, Message> {
+        widgets::text_input(state, prompt, default).into()
     }
 }
 

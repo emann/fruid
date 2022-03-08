@@ -1,0 +1,8 @@
+[package]
+name = "fruid_iced"
+version = "0.0.1"
+authors = ["Ethan Mann <emanndev7@gmail.com"]
+edition = "2021"
+
+[dependencies]
+iced = "0.3.0"

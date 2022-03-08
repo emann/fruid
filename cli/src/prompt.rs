@@ -1,7 +1,6 @@
 use std::fmt::{Debug, Display};
 use std::str::FromStr;
 
-use console::Term;
 use dialoguer::theme::ColorfulTheme;
 use dialoguer::{Confirm, Input, Select};
 
