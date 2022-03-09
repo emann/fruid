@@ -8,6 +8,8 @@ edition = "2021"
 proc-macro = true
 
 [features]
+cli = ["fruid_cli"]
+gui = ["fruid_iced"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -18,4 +20,5 @@ proc-macro-crate = "1.0"
 quote = "1.0"
 itertools = "0.10.3"
 log = "0.4.14"
-fruid_cli = {path = "../cli" }
+fruid_cli = { path = "../cli", optional = true }
+fruid_iced = { path = "../iced", optional = true }

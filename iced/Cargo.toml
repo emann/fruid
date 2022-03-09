@@ -5,4 +5,5 @@ authors = ["Ethan Mann <emanndev7@gmail.com"]
 edition = "2021"
 
 [dependencies]
-iced = "0.3.0"
+iced = { git = "https://github.com/iced-rs/iced.git", rev = "b50e208f31e51c2d947aeaf9fea8a9f287f26aa1", features = ["tokio", "pure"] }
+iced_native = { git = "https://github.com/iced-rs/iced.git", rev = "b50e208f31e51c2d947aeaf9fea8a9f287f26aa1"}

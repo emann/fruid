@@ -5,6 +5,6 @@ authors = ["Ethan Mann <emanndev7@gmail.com"]
 edition = "2021"
 
 [dependencies]
-console = { version = "0.14.1"}
-dialoguer = { version = "0.8.0"}
-indicatif = { version = "0.16.2"}
+console = "0.15.0"
+dialoguer = {version = "0.10.0", default-features = false}
+indicatif = "0.17.0-rc.6"
